@@ -89,6 +89,15 @@ export default function RootLayout() {
               {/* Main app with tabs */}
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
+              {/* Mafia Game Screens */}
+              <Stack.Screen name="god-setup" options={{ headerShown: false }} />
+              <Stack.Screen name="player-join" options={{ headerShown: false }} />
+              <Stack.Screen name="tutorial" options={{ headerShown: false }} />
+              <Stack.Screen name="game-settings" options={{ headerShown: false }} />
+              <Stack.Screen name="god-settings" options={{ headerShown: false }} />
+              <Stack.Screen name="game-master" options={{ headerShown: false }} />
+              <Stack.Screen name="player-waiting" options={{ headerShown: false }} />
+
               {/* Modal Demo Screens */}
               <Stack.Screen
                 name="modal"

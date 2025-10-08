@@ -1,161 +1,133 @@
-import React from "react";
-import { Stack, Link } from "expo-router";
-import { FlatList, Pressable, StyleSheet, View, Text, Alert, Platform } from "react-native";
+import { ScrollView, Pressable, StyleSheet, View, Text, Alert } from "react-native";
 import { IconSymbol } from "@/components/IconSymbol";
-import { GlassView } from "expo-glass-effect";
-import { useTheme } from "@react-navigation/native";
-
-const ICON_COLOR = "#007AFF";
-
-export default function HomeScreen() {
-  const theme = useTheme();
-  const modalDemos = [
-    {
-      title: "Standard Modal",
-      description: "Full screen modal presentation",
-      route: "/modal",
-      color: "#007AFF",
-    },
-    {
-      title: "Form Sheet",
-      description: "Bottom sheet with detents and grabber",
-      route: "/formsheet",
-      color: "#34C759",
-    },
-    {
-      title: "Transparent Modal",
-      description: "Overlay without obscuring background",
-      route: "/transparent-modal",
-      color: "#FF9500",
-    }
-  ];
-
-  const renderModalDemo = ({ item }: { item: (typeof modalDemos)[0] }) => (
-    <GlassView style={[
-      styles.demoCard,
-      Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
-    ]} glassEffectStyle="regular">
-      <View style={[styles.demoIcon, { backgroundColor: item.color }]}>
-        <IconSymbol name="square.grid.3x3" color="white" size={24} />
-      </View>
-      <View style={styles.demoContent}>
-        <Text style={[styles.demoTitle, { color: theme.colors.text }]}>{item.title}</Text>
-        <Text style={[styles.demoDescription, { color: theme.dark ? '#98989D' : '#666' }]}>{item.description}</Text>
-      </View>
-      <Link href={item.route as any} asChild>
-        <Pressable>
-          <GlassView style={[
-            styles.tryButton,
-            Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)' }
-          ]} glassEffectStyle="clear">
-            <Text style={[styles.tryButtonText, { color: theme.colors.primary }]}>Try It</Text>
-          </GlassView>
-        </Pressable>
-      </Link>
-    </GlassView>
-  );
-
-  const renderHeaderRight = () => (
-    <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
-      style={styles.headerButtonContainer}
-    >
-      <IconSymbol name="plus" color={theme.colors.primary} />
-    </Pressable>
-  );
-
-  const renderHeaderLeft = () => (
-    <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
-      style={styles.headerButtonContainer}
-    >
-      <IconSymbol
-        name="gear"
-        color={theme.colors.primary}
-      />
-    </Pressable>
-  );
-
-  return (
-    <>
-      {Platform.OS === 'ios' && (
-        <Stack.Screen
-          options={{
-            title: "Building the app...",
-            headerRight: renderHeaderRight,
-            headerLeft: renderHeaderLeft,
-          }}
-        />
-      )}
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <FlatList
-          data={modalDemos}
-          renderItem={renderModalDemo}
-          keyExtractor={(item) => item.route}
-          contentContainerStyle={[
-            styles.listContainer,
-            Platform.OS !== 'ios' && styles.listContainerWithTabBar
-          ]}
-          contentInsetAdjustmentBehavior="automatic"
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    </>
-  );
-}
+import { Stack, Link } from "expo-router";
+import React from "react";
+import { colors, commonStyles } from "@/styles/commonStyles";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor handled dynamically
-  },
-  listContainer: {
-    paddingVertical: 16,
+    backgroundColor: colors.background,
     paddingHorizontal: 16,
   },
-  listContainerWithTabBar: {
-    paddingBottom: 100, // Extra padding for floating tab bar
+  welcomeCard: {
+    ...commonStyles.card,
+    marginTop: 20,
+    alignItems: 'center',
   },
-  demoCard: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+  gameTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  gameSubtitle: {
+    fontSize: 16,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  optionCard: {
+    ...commonStyles.card,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 8,
   },
-  demoIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  demoContent: {
+  optionContent: {
     flex: 1,
   },
-  demoTitle: {
+  optionTitle: {
     fontSize: 18,
     fontWeight: '600',
+    color: colors.text,
     marginBottom: 4,
-    // color handled dynamically
   },
-  demoDescription: {
+  optionDescription: {
     fontSize: 14,
-    lineHeight: 18,
-    // color handled dynamically
+    color: colors.textSecondary,
   },
-  headerButtonContainer: {
-    padding: 6,
+  iconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  tryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
+  godIconContainer: {
+    backgroundColor: colors.accent,
   },
-  tryButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    // color handled dynamically
+  playerIconContainer: {
+    backgroundColor: colors.secondary,
   },
 });
+
+const gameOptions = [
+  {
+    title: "گاد (مدیر بازی)",
+    description: "بازی را کنترل کنید و بازیکنان را مدیریت کنید",
+    href: "/god-setup",
+    icon: "crown" as const,
+    type: 'god',
+  },
+  {
+    title: "بازیکن",
+    description: "به بازی بپیوندید و نقش خود را بازی کنید",
+    href: "/player-join",
+    icon: "person" as const,
+    type: 'player',
+  },
+  {
+    title: "آموزش بازی",
+    description: "قوانین و نحوه بازی کردن را یاد بگیرید",
+    href: "/tutorial",
+    icon: "book" as const,
+    type: 'tutorial',
+  },
+];
+
+export default function HomeScreen() {
+  const renderGameOption = (item: typeof gameOptions[0]) => (
+    <Link href={item.href} asChild key={item.title}>
+      <Pressable style={styles.optionCard}>
+        <View style={styles.optionContent}>
+          <Text style={[styles.optionTitle, commonStyles.rtlText]}>{item.title}</Text>
+          <Text style={[styles.optionDescription, commonStyles.rtlText]}>{item.description}</Text>
+        </View>
+        <View style={[
+          styles.iconContainer,
+          item.type === 'god' && styles.godIconContainer,
+          item.type === 'player' && styles.playerIconContainer,
+        ]}>
+          <IconSymbol name={item.icon} size={24} color={colors.card} />
+        </View>
+      </Pressable>
+    </Link>
+  );
+
+  return (
+    <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "مافیا پدرخوانده",
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.text,
+        }}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.welcomeCard}>
+          <Text style={styles.gameTitle}>مافیا پدرخوانده</Text>
+          <Text style={[styles.gameSubtitle, commonStyles.rtlText]}>
+            بازی استراتژیک و هیجان‌انگیز برای ۳ تا ۱۲ نفر
+          </Text>
+        </View>
+
+        {gameOptions.map(renderGameOption)}
+      </ScrollView>
+    </View>
+  );
+}
